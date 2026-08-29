@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add Book</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+    <div class="navbar">
+        <h1>Add Book</h1>
+        <a href="{{ url_for('books') }}">← Back to Books</a>
+    </div>
+
+    <div class="container" style="max-width: 500px;">
+
+        <div class="card">
+
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="flash flash-error">{{ message }}</div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+
+            <form method="POST">
+
+                <label>Title</label>
+                <input type="text" name="title" required>
+
+                <label>Author</label>
+                <input type="text" name="author">
+
+                <label>Category</label>
+                <input type="text" name="category" placeholder="e.g. Fiction, Programming">
+
+                <label>Total Copies</label>
+                <input type="number" name="total_copies" min="1" value="1" required>
+
+                <button type="submit" class="btn">Add Book</button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</body>
+</html>

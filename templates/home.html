@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Library Management System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .hero h1 {
+            font-size: 42px;
+            color: #1e4d3d;
+            margin-bottom: 10px;
+        }
+
+        .hero p {
+            color: #64748b;
+            font-size: 18px;
+            margin-bottom: 30px;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 20px;
+        }
+
+        .buttons a {
+            padding: 16px 30px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: bold;
+            color: white;
+        }
+
+        .admin-btn { background: #1e4d3d; }
+        .member-btn { background: #2563eb; }
+    </style>
+</head>
+
+<body>
+
+    <div class="hero">
+        <h1>Library Management System</h1>
+        <p>Select how you want to continue</p>
+
+        <div class="buttons">
+            <a href="{{ url_for('admin_login') }}" class="admin-btn">Admin Login</a>
+            <a href="{{ url_for('member_login') }}" class="member-btn">Member Login</a>
+        </div>
+    </div>
+
+</body>
+</html>

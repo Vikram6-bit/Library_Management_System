@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit Member</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+    <div class="navbar">
+        <h1>Edit Member</h1>
+        <a href="{{ url_for('members') }}">← Back to Members</a>
+    </div>
+
+    <div class="container" style="max-width: 500px;">
+
+        <div class="card">
+
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="flash flash-error">{{ message }}</div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+
+            <form method="POST">
+
+                <label>Member Code</label>
+                <input type="text" value="{{ member.member_code }}" disabled>
+
+                <label>Name</label>
+                <input type="text" name="name" value="{{ member.name }}" required>
+
+                <label>Email</label>
+                <input type="email" name="email" value="{{ member.email }}">
+
+                <label>Phone</label>
+                <input type="text" name="phone" value="{{ member.phone }}">
+
+                <button type="submit" class="btn">Save Changes</button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</body>
+</html>

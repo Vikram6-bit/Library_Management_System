@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Member Login</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        .login-card {
+            width: 380px;
+        }
+
+        .login-card h1 {
+            color: #2563eb;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .login-card button {
+            width: 100%;
+            background: #2563eb;
+        }
+
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 15px;
+            color: #2563eb;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="card login-card">
+
+        <h1>Member Login</h1>
+
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="flash flash-error">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <form method="POST">
+
+            <label>Member Code</label>
+            <input type="text" name="member_code" placeholder="e.g. M001" required>
+
+            <label>Email</label>
+            <input type="email" name="email" required>
+
+            <button type="submit" class="btn">Login</button>
+
+        </form>
+
+        <a href="{{ url_for('home') }}" class="back-link">← Back to Home</a>
+
+    </div>
+
+</body>
+</html>

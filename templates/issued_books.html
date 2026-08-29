@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Issued Books</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+    <div class="navbar">
+        <h1>📖 Issued / Returned Books</h1>
+        <a href="{{ url_for('admin_dashboard') }}">← Dashboard</a>
+    </div>
+
+    <div class="container">
+
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="flash flash-success">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <div class="top-buttons">
+            <a href="{{ url_for('issue_book') }}" class="btn">+ Issue New Book</a>
+            <a href="{{ url_for('download_issued_books') }}" class="btn">⬇ Download CSV</a>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Book</th>
+                    <th>Member</th>
+                    <th>Issue Date</th>
+                    <th>Due Date</th>
+                    <th>Return Date</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if records %}
+                    {% for r in records %}
+                    <tr>
+                        <td>{{ r.title }}</td>
+                        <td>{{ r.member_name }}</td>
+                        <td>{{ r.issue_date }}</td>
+                        <td>{{ r.due_date }}</td>
+                        <td>{{ r.return_date or "-" }}</td>
+                        <td>
+                            {% if r.status == "Returned" %}
+                                <span class="status-returned">Returned</span>
+                            {% elif r.due_date < today %}
+                                <span class="status-overdue">Overdue</span>
+                            {% else %}
+                                <span class="status-issued">Issued</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if r.status == "Issued" %}
+                            <a href="{{ url_for('return_book', record_id=r.id) }}">Mark Returned</a>
+                            {% else %}
+                            —
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr><td colspan="7">No records yet.</td></tr>
+                {% endif %}
+            </tbody>
+        </table>
+
+    </div>
+
+</body>
+</html>

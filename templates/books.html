@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Manage Books</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+    <div class="navbar">
+        <h1>📚 Manage Books</h1>
+        <a href="{{ url_for('admin_dashboard') }}">← Dashboard</a>
+    </div>
+
+    <div class="container">
+
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="flash flash-success">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <div class="top-buttons">
+            <a href="{{ url_for('add_book') }}" class="btn">+ Add Book</a>
+        </div>
+
+        <form method="GET">
+            <input
+                type="text"
+                name="search"
+                class="search-box"
+                placeholder="Search by title, author, or category..."
+                value="{{ search }}"
+            >
+        </form>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Author</th>
+                    <th>Category</th>
+                    <th>Total</th>
+                    <th>Available</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if books %}
+                    {% for book in books %}
+                    <tr>
+                        <td>{{ book.title }}</td>
+                        <td>{{ book.author }}</td>
+                        <td>{{ book.category }}</td>
+                        <td>{{ book.total_copies }}</td>
+                        <td>{{ book.available_copies }}</td>
+                        <td>
+                            <a href="{{ url_for('edit_book', book_id=book.id) }}">Edit</a>
+                            |
+                            <a href="{{ url_for('delete_book', book_id=book.id) }}"
+                               onclick="return confirm('Delete this book?');">
+                               Delete
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr><td colspan="6">No books found.</td></tr>
+                {% endif %}
+            </tbody>
+        </table>
+
+    </div>
+
+</body>
+</html>

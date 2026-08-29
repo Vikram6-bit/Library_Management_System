@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Manage Members</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+    <div class="navbar">
+        <h1>👥 Manage Members</h1>
+        <a href="{{ url_for('admin_dashboard') }}">← Dashboard</a>
+    </div>
+
+    <div class="container">
+
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="flash flash-success">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <div class="top-buttons">
+            <a href="{{ url_for('add_member') }}" class="btn">+ Add Member</a>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Member Code</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if members %}
+                    {% for member in members %}
+                    <tr>
+                        <td>{{ member.member_code }}</td>
+                        <td>{{ member.name }}</td>
+                        <td>{{ member.email }}</td>
+                        <td>{{ member.phone }}</td>
+                        <td>
+                            <a href="{{ url_for('edit_member', member_id=member.id) }}">Edit</a>
+                            |
+                            <a href="{{ url_for('delete_member', member_id=member.id) }}"
+                               onclick="return confirm('Delete this member?');">
+                               Delete
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr><td colspan="5">No members found.</td></tr>
+                {% endif %}
+            </tbody>
+        </table>
+
+    </div>
+
+</body>
+</html>

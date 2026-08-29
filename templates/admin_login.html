@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Login</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        .login-card {
+            width: 380px;
+        }
+
+        .login-card h1 {
+            color: #1e4d3d;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .login-card button {
+            width: 100%;
+        }
+
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 15px;
+            color: #1e4d3d;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="card login-card">
+
+        <h1>Admin Login</h1>
+
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="flash flash-error">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <form method="POST">
+
+            <label>Username</label>
+            <input type="text" name="username" required>
+
+            <label>Password</label>
+            <input type="password" name="password" required>
+
+            <button type="submit" class="btn">Login</button>
+
+        </form>
+
+        <a href="{{ url_for('home') }}" class="back-link">← Back to Home</a>
+
+    </div>
+
+</body>
+</html>

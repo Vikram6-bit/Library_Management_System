@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Popular Books</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+    <div class="navbar">
+        <h1>🔥 Most Popular Books</h1>
+        <a href="{{ url_for('admin_dashboard') }}">← Dashboard</a>
+    </div>
+
+    <div class="container" style="max-width: 700px;">
+
+        {% if top_books %}
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Rank</th>
+                    <th>Title</th>
+                    <th>Author</th>
+                    <th>Times Issued</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for book in top_books %}
+                <tr>
+                    <td>
+                        {% if loop.index == 1 %}🥇
+                        {% elif loop.index == 2 %}🥈
+                        {% elif loop.index == 3 %}🥉
+                        {% else %}#{{ loop.index }}
+                        {% endif %}
+                    </td>
+                    <td>{{ book.title }}</td>
+                    <td>{{ book.author }}</td>
+                    <td>{{ book.times_issued }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        {% else %}
+
+        <p style="color:#64748b;">No books have been issued yet.</p>
+
+        {% endif %}
+
+    </div>
+
+</body>
+</html>

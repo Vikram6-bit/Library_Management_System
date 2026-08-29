@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+    <div class="navbar">
+        <h1>📚 Library Admin Dashboard</h1>
+        <a href="{{ url_for('logout') }}">Logout</a>
+    </div>
+
+    <div class="container">
+
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="flash flash-success">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <div class="stat-grid">
+
+            <div class="stat-box">
+                <h2>{{ total_books }}</h2>
+                <p>Total Books</p>
+            </div>
+
+            <div class="stat-box">
+                <h2>{{ total_members }}</h2>
+                <p>Total Members</p>
+            </div>
+
+            <div class="stat-box">
+                <h2>{{ total_issued }}</h2>
+                <p>Currently Issued</p>
+            </div>
+
+            <div class="stat-box">
+                <h2 style="color: {{ '#dc2626' if total_overdue > 0 else '#1e4d3d' }};">
+                    {{ total_overdue }}
+                </h2>
+                <p>Overdue Books</p>
+            </div>
+
+        </div>
+
+        <div class="top-buttons">
+            <a href="{{ url_for('books') }}" class="btn">Manage Books</a>
+            <a href="{{ url_for('members') }}" class="btn">Manage Members</a>
+            <a href="{{ url_for('issue_book') }}" class="btn">Issue a Book</a>
+            <a href="{{ url_for('issued_books') }}" class="btn">Issued / Returned</a>
+            <a href="{{ url_for('popular_books') }}" class="btn">Popular Books</a>
+        </div>
+
+        <div class="card" style="margin-top: 30px; max-width: 600px;">
+            <h2 style="color:#1e4d3d; margin-bottom: 15px;">Books by Category</h2>
+            <canvas id="categoryChart"></canvas>
+        </div>
+
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+
+    <script>
+        const ctx = document.getElementById('categoryChart').getContext('2d');
+
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: {{ category_labels|tojson }},
+                datasets: [{
+                    label: 'Number of Books',
+                    data: {{ category_counts|tojson }},
+                    backgroundColor: '#1e4d3d'
+                }]
+            },
+            options: {
+                scales: {
+                    y: { beginAtZero: true }
+                }
+            }
+        });
+    </script>
+
+</body>
+</html>

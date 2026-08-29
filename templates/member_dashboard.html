@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Library</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+    <div class="navbar" style="background:#2563eb;">
+        <h1>📖 My Library</h1>
+        <a href="{{ url_for('logout') }}">Logout</a>
+    </div>
+
+    <div class="container">
+
+        <h2 style="color:#2563eb; margin-bottom: 20px;">
+            Welcome, {{ session.get("member_name") }}
+        </h2>
+
+        {% if records %}
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Book</th>
+                    <th>Author</th>
+                    <th>Issue Date</th>
+                    <th>Due Date</th>
+                    <th>Return Date</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for r in records %}
+                <tr>
+                    <td>{{ r.title }}</td>
+                    <td>{{ r.author }}</td>
+                    <td>{{ r.issue_date }}</td>
+                    <td>{{ r.due_date }}</td>
+                    <td>{{ r.return_date or "-" }}</td>
+                    <td class="{{ 'status-returned' if r.status == 'Returned' else 'status-issued' }}">
+                        {{ r.status }}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        {% else %}
+
+        <p style="color:#64748b;">You haven't borrowed any books yet.</p>
+
+        {% endif %}
+
+    </div>
+
+</body>
+</html>
